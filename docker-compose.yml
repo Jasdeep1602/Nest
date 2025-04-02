@@ -1,0 +1,50 @@
+services:
+  # NestJS App
+  # app:
+  #   build: .
+  #   container_name: nestjs_app
+  #   restart: always
+  #   ports:
+  #     - '3000:3000'
+  #   depends_on:
+  #     - db
+  #   env_file:
+  #     - .env
+  #   networks:
+  #     - app_network
+
+  # PostgreSQL Database
+  dev-db:
+    image: postgres:15
+    # container_name: postgres_db
+    # restart: always
+    ports:
+      - '5434:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: nest
+    # volumes:
+    #   - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+  # pgAdmin (optional)
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   container_name: pgadmin
+  #   restart: always
+  #   ports:
+  #     - '5050:80'
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: admin@example.com
+  #     PGADMIN_DEFAULT_PASSWORD: admin
+  #   depends_on:
+  #     - db
+  #   networks:
+  #     - app_network
+
+networks:
+  app_network:
+# volumes:
+#   postgres_data:
