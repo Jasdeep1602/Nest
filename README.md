@@ -23,7 +23,11 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) with strict Typescript, Postgres, Prisma, Docker .
+[Nest](https://github.com/nestjs/nest) with strict Typescript, Postgres, Prisma, Docker.
+
+## Note
+
+Make sure Docker and Postgres are installed on your machine.
 
 ## Project setup
 
