@@ -21,6 +21,12 @@ model User {
   hash      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // one to many relation
+  //created automatically
+  bookmarks Bookmark[]
+
+  @@map("users")
 }
 
 model Bookmark {
@@ -30,4 +36,14 @@ model Bookmark {
   title       String
   description String?
   link        String
+
+  userId Int
+  // many to one relation
+  // userId is the foreign key in the bookmarks table
+  // user is the reference to the users table
+  // userId is the foreign key in the bookmarks table
+  // id is the primary key in the users table
+  user   User @relation(fields: [userId], references: [id])
+
+  @@map("bookmarks")
 }

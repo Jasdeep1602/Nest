@@ -37,6 +37,15 @@ $ npm install
 # development
 $ npm run start
 
+# deploy existing prisma migrations
+"prisma:dev:deploy": "prisma migrate deploy"
+# delete docker container
+"db:dev:rm": "docker compose rm dev-db -s -f -v"
+# create docker container
+"db:dev:up": "docker compose up dev-db -d"
+# All for 1
+"db:dev:restart": "npm run db:dev:rm && npm run db:dev:up && sleep 1 && npm run prisma:dev:deploy"
+
 # watch mode
 $ npm run start:dev
 
