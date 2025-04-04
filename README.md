@@ -23,7 +23,7 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+[Nest](https://github.com/nestjs/nest) with strict Typescript, Postgres, Prisma, Docker .
 
 ## Project setup
 
@@ -37,14 +37,20 @@ $ npm install
 # development
 $ npm run start
 
+# prisma and docker
+
 # deploy existing prisma migrations
-"prisma:dev:deploy": "prisma migrate deploy"
+$ npm run prisma:dev:deploy
+
 # delete docker container
-"db:dev:rm": "docker compose rm dev-db -s -f -v"
+$ npm run db:dev:rm
+
 # create docker container
-"db:dev:up": "docker compose up dev-db -d"
-# All for 1
-"db:dev:restart": "npm run db:dev:rm && npm run db:dev:up && sleep 1 && npm run prisma:dev:deploy"
+$ npm run db:dev:up
+
+# All for 1 for above three commands
+$ npm run db:dev:restart
+
 
 # watch mode
 $ npm run start:dev
