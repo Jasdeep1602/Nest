@@ -27,7 +27,9 @@
 
 ## Note
 
-Make sure Docker and Postgres are installed on your machine.
+$ Make sure Docker and Postgres are installed and setup on your machine.
+$ Use Docker desktop for easy access to start and stop container server.
+$ Use Prisma studio command for easy tables data access and visualization.
 
 ## Project setup
 
