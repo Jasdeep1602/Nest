@@ -23,19 +23,31 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) with strict Typescript, Postgres, Prisma, Docker.
+[Nest](https://github.com/nestjs/nest) with strict Typescript, Postgres, Prisma, Docker.<br>
+This is a basic setup with auth flow, and some extra modules.<br>
 
 ## Note
 
-$ Make sure Docker and Postgres are installed and setup on your machine.
-$ Use Docker desktop for easy access to start and stop container server.
-$ Use Prisma studio command for easy tables data access and visualization.
+=> Make sure Docker and Postgres are installed and setup on your machine.<br>
+=> Use Docker desktop for easy access to start and stop container server. <br>
+=> Use Prisma studio command for easy tables data access and visualization.<br>
+=> You can make your own prisma migraions. Read prisma docs for how to do that.<br>  
+=> You can also refer to YT freeCodeCamp.org for elaborate video:<br>
+=> https://www.youtube.com/watch?v=GHTA143_b-s
 
 ## Project setup
 
 ```bash
 $ npm install
 ```
+
+## Environment variables needed
+
+DATABASE_URL=<br>
+POSTGRES_USER=<br>
+POSTGRES_PASSWORD=<br>
+POSTGRES_DB=<br>
+JWT_SECRET=<br>
 
 ## Compile and run the project
 
