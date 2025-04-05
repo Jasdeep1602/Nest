@@ -48,6 +48,7 @@ POSTGRES_USER=<br>
 POSTGRES_PASSWORD=<br>
 POSTGRES_DB=<br>
 JWT_SECRET=<br>
+JWT_REFRESH_SECRET=
 
 ## Compile and run the project
 

@@ -5,7 +5,6 @@ import { AuthDto } from './dto';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { access } from 'fs';
 @Injectable({})
 export class AuthService {
   constructor(
@@ -49,20 +48,61 @@ export class AuthService {
     return this.signToken(user.id, user.email);
   }
 
-  //signToken method to generate JWT token
-
+  // Updated signToken method to include refresh token
   async signToken(
     userId: number,
     email: string,
-  ): Promise<{ access_token: string }> {
+  ): Promise<{ access_token: string; refresh_token: string }> {
     const payload = { sub: userId, email };
     const secret = this.config.get('JWT_SECRET');
-    const token = await this.jwt.signAsync(payload, {
+    const refreshSecret = this.config.get('JWT_REFRESH_SECRET');
+
+    const accessToken = await this.jwt.signAsync(payload, {
       expiresIn: '15m',
       secret: secret,
     });
+
+    const refreshToken = await this.jwt.signAsync(payload, {
+      expiresIn: '7d',
+      secret: refreshSecret,
+    });
+
+    // Hash the refresh token before storing it in the database
+    const hashedRefreshToken = await argon.hash(refreshToken);
+
+    // Store the hashed refresh token in the database
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { refreshToken: hashedRefreshToken },
+    });
+
     return {
-      access_token: token,
+      access_token: accessToken,
+      refresh_token: refreshToken,
     };
+  }
+
+  // Method to refresh tokens
+  async refreshTokens(userId: number, refreshToken: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user || !user.refreshToken) {
+      throw new ForbiddenException('Access Denied');
+    }
+
+    // Verify the refresh token
+    const refreshTokenMatches = await argon.verify(
+      user.refreshToken,
+      refreshToken,
+    );
+
+    if (!refreshTokenMatches) {
+      throw new ForbiddenException('Access Denied');
+    }
+
+    // Generate new tokens
+    return this.signToken(user.id, user.email);
   }
 }

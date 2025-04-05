@@ -15,4 +15,12 @@ export class AuthController {
   signin(@Body() dto: AuthDto) {
     return this.authService.signin(dto);
   }
+
+  // New endpoint for refreshing tokens
+
+  @Post('refresh')
+  async refreshTokens(@Body() body: { userId: number; refreshToken: string }) {
+    const { userId, refreshToken } = body;
+    return this.authService.refreshTokens(userId, refreshToken);
+  }
 }
