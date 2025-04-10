@@ -1,8 +1,9 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from '@prisma/client';
 import { JwtGuard } from 'src/auth/guard';
 import { GetUser } from 'src/decorators';
+import { CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
 
 // @UseGuards(JwtGuard)
 @Controller('users')
@@ -14,12 +15,9 @@ export class UserController {
     return user; // This will return the user object from the request
   }
 
-  // @Get('cache/:key')
-  // async getCachedData(@Param('key') key: string): Promise<any> {
-  //   return this.userService.getCachedData(key);
-  // }
+  @UseInterceptors(CacheInterceptor) // Use the CacheInterceptor to cache the response(this can only be used on get requests)
   @Get('all')
-  getAllUsers() {
+  async getAll() {
     return this.userService.getAllUsers();
   }
 }

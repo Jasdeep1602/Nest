@@ -14,13 +14,17 @@ import * as redisStore from 'cache-manager-ioredis';
     ConfigModule.forRoot({ isGlobal: true }),
     CacheModule.registerAsync({
       isGlobal: true,
+      // Use the Redis store for caching
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         store: redisStore,
         host: configService.get('REDIS_HOST', 'localhost'),
         port: configService.get('REDIS_PORT', 6379),
-        ttl: 600, // Time-to-live in seconds
+        // password: configService.get('REDIS_PASSWORD', 'yourpassword'),
+        // username: configService.get('REDIS_USERNAME', 'yourusername'),
+
+        ttl: 60 * 1000, // Time-to-live in seconds
       }),
     }),
     AuthModule,
