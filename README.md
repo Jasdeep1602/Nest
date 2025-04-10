@@ -23,7 +23,7 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) with strict Typescript, Postgres, Prisma, Docker.<br>
+[Nest](https://github.com/nestjs/nest) with strict Typescript, Postgres, Prisma, Docker, Redis.<br>
 This is a basic setup with auth flow, and some extra modules.<br>
 
 ## Note
@@ -48,7 +48,9 @@ POSTGRES_USER=<br>
 POSTGRES_PASSWORD=<br>
 POSTGRES_DB=<br>
 JWT_SECRET=<br>
-JWT_REFRESH_SECRET=
+JWT_REFRESH_SECRET=<br>
+REDIS_HOST=<br>
+REDIS_PORT=
 
 ## Compile and run the project
 
@@ -67,8 +69,15 @@ $ npm run db:dev:rm
 # create docker container
 $ npm run db:dev:up
 
+# create docker container with redis
+$ npm run db:dev:up:redis
+
 # All for 1 for above three commands
 $ npm run db:dev:restart
+
+# docker down
+$ npm run db:dev:down
+
 
 
 # watch mode
