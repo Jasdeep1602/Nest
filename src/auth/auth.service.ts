@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as argon from 'argon2';
-import { AuthDto } from './dto';
+import { SigninDto, SignupDto, TokensDto } from './dto';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
@@ -14,12 +14,13 @@ export class AuthService {
   ) {}
 
   //signup method to create a new user
-  async signup(dto: AuthDto) {
+  async signup(dto: SignupDto): Promise<TokensDto> {
     const hash = await argon.hash(dto.password);
     try {
       const user = await this.prisma.user.create({
         data: {
-          email: dto.email,
+          username: dto.username,
+          email: dto.email.toLowerCase().trim(),
           hash,
         },
       });
@@ -36,7 +37,7 @@ export class AuthService {
 
   //signin method to authenticate user
 
-  async signin(dto: AuthDto) {
+  async signin(dto: SigninDto): Promise<TokensDto> {
     const user = await this.prisma.user.findUnique({
       where: { email: dto.email },
     });
@@ -49,10 +50,7 @@ export class AuthService {
   }
 
   // Updated signToken method to include refresh token
-  async signToken(
-    userId: number,
-    email: string,
-  ): Promise<{ access_token: string; refresh_token: string }> {
+  async signToken(userId: number, email: string): Promise<TokensDto> {
     const payload = { sub: userId, email };
     const secret = this.config.get('JWT_SECRET');
     const refreshSecret = this.config.get('JWT_REFRESH_SECRET');
@@ -83,7 +81,10 @@ export class AuthService {
   }
 
   // Method to refresh tokens
-  async refreshTokens(userId: number, refreshToken: string) {
+  async refreshTokens(
+    userId: number,
+    refreshToken: string,
+  ): Promise<TokensDto> {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
     });
