@@ -11,7 +11,7 @@
     "db:dev:up": "docker compose up dev-db -d",
     "db:dev:down": "docker compose down",
     "db:dev:up:redis": "docker compose up dev-db redis -d",
-    "db:dev:restart": "docker compose rm -s -f -v && docker compose up dev-db redis -d && sleep 1 && npm run prisma:dev:deploy",
+    "db:dev:restart": "docker compose rm -s -f -v && docker compose up dev-db redis -d && sleep 5 && npm run prisma:dev:deploy",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
